@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">00001-NumerosPrimos</string>
+    <string name="calculadora_de_numeros_primos_primos">Calculadora de numeros primos primos</string>
+    <string name="introduce_un_numero_y_pulse_calcular_para_saber_si_es_primo_o_no">Introduce un numero y pulse calcular para saber si es primo o no.</string>
+    <string name="button">Button</string>
+    <string name="calcular">Calcular</string>
+    <string name="introduce_numero">Introduce numero</string>
+</resources>
