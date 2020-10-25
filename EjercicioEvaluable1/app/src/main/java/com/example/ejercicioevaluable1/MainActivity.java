@@ -6,38 +6,45 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int[] valores =new int[100];
+    private double[] valores =new double[100];
+    private int ultimaPosicionCalculada = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         for (int i=0; i <this.valores.length;i++){
             this.valores[i] = 0;
         }
+        this.valores[0] =1;
+        this.valores[1] =1;
+        this.valores[2] =2;
+        this.ultimaPosicionCalculada=2;
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
     }
 
     public void pulsarBoton(View view) {
+
         EditText entradaNumeros = (EditText) findViewById(R.id.numberInput);
-        TextView resultado = (TextView) findViewById(R.id.resultado);
+        TextView resultadoOutput = (TextView) findViewById(R.id.resultado);
 
         if (entradaNumeros.getText().toString().trim().length() == 0) {
-            resultado.setText("No has introducido nada.");
+            resultadoOutput.setText(R.string.NingunaPosicionIntroducida);
         } else {
-            int posicionIntroducida = Integer.parseInt(entradaNumeros.getText().toString());
-            if (posicionIntroducida > 0 && posicionIntroducida <= 100) {
-                // comprobamos si la posicion pedida ya está calculada
-                if (valores[posicionIntroducida - 1] == 0) {
-                    Calculo.calcularHasta(this.valores, posicionIntroducida);
+            int posicionIntroducida = Integer.parseInt(entradaNumeros.getText().toString()) -1;
+            if (posicionIntroducida >= 0 && posicionIntroducida < 100) {
+                if (valores[posicionIntroducida] == 0) {
+                    Calculo.calcularFibo(this.valores, this.ultimaPosicionCalculada, posicionIntroducida);
+                    this.ultimaPosicionCalculada = posicionIntroducida;
                 }
-                resultado.setText("El número introducido es " + String.valueOf(valores[posicionIntroducida - 1]));
+                //visualizo texto
+                // getResources().getString(R.string.ultimaPosicionCalc)
+                resultadoOutput.setText(String.valueOf(valores[posicionIntroducida]));
             } else {
-                resultado.setText("Posición fuera de rango");
+                resultadoOutput.setText(R.string.fueraRango);
             }
         }
     }

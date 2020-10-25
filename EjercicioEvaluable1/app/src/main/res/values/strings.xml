@@ -6,4 +6,9 @@
     <string name="resultado">Resultado</string>
     <string name="introduce_o_numero">Introduce o numero</string>
     <string name="calcular_el_numero_de_la_serie_fibonachi_que_desees">Calcular el numero de la serie Fibonachi que desees</string>
+    <string name="NingunaPosicionIntroducida">\"Ninguna posicion introducida</string>
+    <string name="ultimaPosicionCalc">ultimaPosicionCalculada</string>
+    <string name="fueraRango">Fuera de rango</string>
+    <string name="the_fibonacci_sequence">The Fibonacci Sequence</string>
+    <string name="en_este_ejercicio_blblablablablalbalbabls">En este ejercicio blblablablablalbalbabls</string>
 </resources>
