@@ -18,9 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
         promedio=(matematicas+quimica+fisica) / 3;
 
-        if(promedio>=6){
+        if(promedio>=5){
             Toast.makeText(this, "Aprobado", Toast.LENGTH_SHORT).show();
-        } else if(promedio <=5){
+        } else if(promedio <=4){
             Toast.makeText(this, "Suspenso", Toast.LENGTH_SHORT).show();
         }
 
