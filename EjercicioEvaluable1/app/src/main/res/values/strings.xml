@@ -1,15 +1,11 @@
 <resources>
     <string name="app_name">EjercicioEvaluable1</string>
-    <string name="calculo_fibonachi">Calculo Fibonachi</string>
-    <string name="calcula_aihjsdaljkdhlka_dakjd_akdkaj_kjak_jdajhd_jkla_hjljk_hjahd">Calcula aiHJSDALJKDHLKA DAKJD AKDKAJ KJAK JDAJHD JKLA HJLjk hjahd</string>
     <string name="calcular">Calcular</string>
     <string name="resultado">Resultado</string>
     <string name="introduce_o_numero">Introduce o numero</string>
-    <string name="calcular_el_numero_de_la_serie_fibonachi_que_desees">Calcular el numero de la serie Fibonachi que desees</string>
     <string name="NingunaPosicionIntroducida">\"Ninguna posicion introducida</string>
     <string name="ultimaPosicionCalc">ultimaPosicionCalculada</string>
     <string name="fueraRango">Fuera de rango</string>
     <string name="the_fibonacci_sequence">The Fibonacci Sequence</string>
-    <string name="en_este_ejercicio_blblablablablalbalbabls">En este ejercicio blblablablablalbalbabls</string>
     <string name="en_este_ejercicio_calcularemos_la_serie_fibonacci">En este ejercicio calcularemos la serie Fibonacci</string>
 </resources>

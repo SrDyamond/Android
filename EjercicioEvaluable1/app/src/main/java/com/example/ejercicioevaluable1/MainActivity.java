@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pulsarBoton(View view) {
-
+    //variables para entrada de numeros y salida del resultado
         EditText entradaNumeros = (EditText) findViewById(R.id.numberInput);
         TextView resultadoOutput = (TextView) findViewById(R.id.resultado);
 
@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                     this.ultimaPosicionCalculada = posicionIntroducida;
                 }
                 //visualizo texto
-                // getResources().getString(R.string.ultimaPosicionCalc)
                 resultadoOutput.setText(String.valueOf(valores[posicionIntroducida]));
             } else {
                 resultadoOutput.setText(R.string.fueraRango);

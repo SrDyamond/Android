@@ -32,8 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
         android:fontFamily="@font/acme"
+        android:gravity="center_horizontal"
         android:text="@string/en_este_ejercicio_calcularemos_la_serie_fibonacci"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:autoSizeTextType="uniform" />
 
     <EditText
         android:id="@+id/numberInput"
