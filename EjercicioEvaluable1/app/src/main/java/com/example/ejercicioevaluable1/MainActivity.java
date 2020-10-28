@@ -40,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
                     Calculo.calcularFibo(this.valores, this.ultimaPosicionCalculada, posicionIntroducida);
                     this.ultimaPosicionCalculada = posicionIntroducida;
                 }
+
                 //visualizo texto
-                resultadoOutput.setText(String.valueOf(valores[posicionIntroducida]));
+                resultadoOutput.setText(String.valueOf(valores[posicionIntroducida]).replace(".0", ""));
             } else {
                 resultadoOutput.setText(R.string.fueraRango);
             }
