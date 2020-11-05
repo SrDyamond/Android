@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">BuscaminasVersion-0.0.1</string>
+    <string name="buscaminas">Buscaminas</string>
+    <string name="facil">Facil</string>
+    <string name="medio">Medio</string>
+    <string name="dificil">Dificil</string>
+    <string name="jugar">Jugar</string>
+    <string name="nivel">Nivel</string>
+    <string name="dificultad">Dificultad</string>
+    <string name="atras">Atras</string>
+    <string name="button">Button</string>
+</resources>

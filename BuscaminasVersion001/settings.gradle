@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "BuscaminasVersion-0.0.1"
