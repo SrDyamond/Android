@@ -39,22 +39,22 @@ public class MainActivityJuego extends AppCompatActivity {
     private void crearTablero(String fraseimportada){
         String fraseImportada=fraseimportada;
         if (fraseImportada=="Facil") {
-            filas = 8;
-            columnas = 8;
-            minas = 10;
-            totalceldas = 64;
+            filas = 3;
+            columnas = 3;
+            minas = 2;
+            totalceldas = 6;
         }
         if (fraseImportada=="Medio") {
-            filas = 16;
-            columnas = 16;
-            minas = 40;
-            totalceldas = 256;
+            filas = 8;
+            columnas = 8;
+            minas = 30;
+            totalceldas = 64;
         }
         if (fraseImportada=="Dificil") {
-            filas = 30;
+            filas = 16;
             columnas = 16;
             minas = 99;
-            totalceldas = 480;
+            totalceldas = 256;
         }
         Toast.makeText(this, "Creando tablero", Toast.LENGTH_SHORT).show();
 
