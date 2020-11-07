@@ -43,8 +43,19 @@ public class MainActivity extends AppCompatActivity {
     }
     public void jugar(View v) {
         Intent intent = new Intent (v.getContext(), MainActivityJuego.class);
-        //Exportamos texto a ActivityJuego
-        intent.putExtra("frase", dificultad.getText().toString());
+        //Exportamos array a ActivityJuego
+
+        if(dificultad.getText().toString().equals("Facil")){
+            int[]tablero = {3,3,2};
+            intent.putExtra("Array", tablero);
+          //  intent.putExtra("Array", tablero );
+        } else if(dificultad.getText().equals("Medio")){
+            int[]tablero = {8,8,30};
+            intent.putExtra("Array", tablero );
+        } else if(dificultad.getText().equals("Dificil")) {
+            int[]tablero = {16, 16, 99};
+            intent.putExtra("Array", tablero);
+        }
         startActivityForResult(intent, 0);
     }
 }
