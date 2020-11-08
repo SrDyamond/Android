@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 
 public class MainActivityJuego extends AppCompatActivity {
@@ -43,21 +42,18 @@ public class MainActivityJuego extends AppCompatActivity {
 
     private void crearTablero(int filas,int columnas){
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int buttonSize = screenWidth / columnas;
-
-      //  int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-      //  int buttonSize = screenWidth / gridWidth;
+        int buttonSize = screenWidth / filas;
 
 
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        for (int y = 0; y < filas; y++) {
+        for (int y = 0; y < columnas; y++) {
             LinearLayout linearLayoutRow = new LinearLayout(this);
             LinearLayout.LayoutParams linearLayoutRowLp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayoutRow.setLayoutParams(linearLayoutRowLp);
             linearLayoutRow.setOrientation(LinearLayout.HORIZONTAL);
-            for (int x = 0; x < columnas; x++) {
+            for (int x = 0; x < filas; x++) {
                 ImageView imageView = new ImageView(this);
                 LinearLayout.LayoutParams imageViewLp = new LinearLayout.LayoutParams(buttonSize, buttonSize);
                 imageView.setLayoutParams(imageViewLp);
