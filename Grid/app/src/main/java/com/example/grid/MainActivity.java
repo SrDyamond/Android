@@ -2,7 +2,9 @@ package com.example.grid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toast.makeText(this, "Iniciando", Toast.LENGTH_SHORT).show();
-        this.añadeHijos();
+       // this.añadeHijos();
+        Toast.makeText(this, "pipipi", Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -32,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             b.setText("btn"+1);
             b.setTag("boton"+1);
-            g.addView(b);
+            g.addView(b,i);
 
         }
     }
-
 }
