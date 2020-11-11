@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.Arrays;
+
 
 public class MainActivityJuego extends AppCompatActivity {
     private int filas =0, columnas=0,minas=0;
@@ -21,7 +23,6 @@ public class MainActivityJuego extends AppCompatActivity {
         setContentView(R.layout.activity_main_juego);
         Intent intent = getIntent();
         int[]valores = intent.getIntArrayExtra("Array");
-        Log.d("valor", String.valueOf(valores));
         try {
             assert valores != null;
             filas = valores[0];
@@ -35,11 +36,8 @@ public class MainActivityJuego extends AppCompatActivity {
         }
 
         crearTablero(filas,columnas);
+        desordenarArray(valores);
 
-    }
-    public void atras(View v) {
-        Intent intent2 = new Intent(v.getContext(), MainActivity.class);
-        startActivityForResult(intent2, 0);
     }
 
     private void crearTablero(int filas,int columnas){
@@ -70,6 +68,31 @@ public class MainActivityJuego extends AppCompatActivity {
             }
             linearLayout.addView(linearLayoutRow);
         }
+    }
+
+    public void desordenarArray(int [] valores){
+        int fila=valores[0];
+        int columna=valores[1];
+        int minas=valores[2];
+        int tabla[][] = new int [fila][columna];
+        int cont=minas;
+
+        for (int x=0;x<fila;x++) {
+            for (int y = 0; y < columna; y++) {
+                if (cont > 0) {
+                    tabla[x][y] = 9;
+                    cont = cont - 1;
+                }
+                System.out.print(tabla[x][y] + "\t");
+            }
+            System.out.println("\n");
+        }
+
+    }
+
+    public void atras(View v) {
+        Intent intent2 = new Intent(v.getContext(), MainActivity.class);
+        startActivityForResult(intent2, 0);
     }
 
 }
