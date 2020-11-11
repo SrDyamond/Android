@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.LogPrinter;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -83,7 +84,7 @@ public class MainActivityJuego extends AppCompatActivity {
                     tabla[x][y] = 9;
                     cont = cont - 1;
                 }
-                System.out.print(tabla[x][y] + "\t");
+                System.out.print(tabla[x][y]);
             }
             System.out.println("\n");
         }
