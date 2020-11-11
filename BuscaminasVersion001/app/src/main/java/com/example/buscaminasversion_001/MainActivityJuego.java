@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,9 +19,9 @@ public class MainActivityJuego extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_juego);
-        //Importamos texto de ActivityMain
         Intent intent = getIntent();
         int[]valores = intent.getIntArrayExtra("Array");
+        Log.d("valor", String.valueOf(valores));
         try {
             assert valores != null;
             filas = valores[0];
@@ -32,6 +33,7 @@ public class MainActivityJuego extends AppCompatActivity {
             columnas = 8;
             minas = 10;
         }
+
         crearTablero(filas,columnas);
 
     }
@@ -49,7 +51,7 @@ public class MainActivityJuego extends AppCompatActivity {
         for (int y = 0; y < columnas; y++) {
             LinearLayout linearLayoutRow = new LinearLayout(this);
             LinearLayout.LayoutParams linearLayoutRowLp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayoutRow.setLayoutParams(linearLayoutRowLp);
             linearLayoutRow.setOrientation(LinearLayout.HORIZONTAL);
@@ -57,10 +59,10 @@ public class MainActivityJuego extends AppCompatActivity {
                 ImageView imageView = new ImageView(this);
                 LinearLayout.LayoutParams imageViewLp = new LinearLayout.LayoutParams(buttonSize, buttonSize);
                 imageView.setLayoutParams(imageViewLp);
-                imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boton_pulsado));
+                imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boton_sin_pulsar));
                 imageView.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-                        ((ImageView) view).setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_sin_pulsar));
+                        ((ImageView) view).setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_pulsado));
                     }
                 });
                 linearLayoutRow.addView(imageView);
