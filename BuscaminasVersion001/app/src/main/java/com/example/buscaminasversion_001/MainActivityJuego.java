@@ -17,7 +17,8 @@ import java.util.Arrays;
 
 public class MainActivityJuego extends AppCompatActivity {
     private int filas =0, columnas=0,minas=0;
-
+    private int[][] tabla;
+    private ImageView[][] imagenes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +36,14 @@ public class MainActivityJuego extends AppCompatActivity {
             columnas = 8;
             minas = 10;
         }
-
+        llenarMinas(valores);
         crearTablero(filas,columnas);
-        desordenarArray(valores);
+
 
     }
 
     private void crearTablero(int filas,int columnas){
+        imagenes = new ImageView[filas][columnas];
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int buttonSize = screenWidth / filas;
 
@@ -58,38 +60,55 @@ public class MainActivityJuego extends AppCompatActivity {
                 ImageView imageView = new ImageView(this);
                 LinearLayout.LayoutParams imageViewLp = new LinearLayout.LayoutParams(buttonSize, buttonSize);
                 imageView.setLayoutParams(imageViewLp);
+                //Pasaamos a traves de un string  la posicion en la tabla de esa imagen
+                imageView.setContentDescription(x+"#"+y);
                 imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boton_sin_pulsar));
                 imageView.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-                        ((ImageView) view).setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_pulsado));
+                        //recuperamos la view a una imagen view
+                        ImageView imageView =(ImageView) view;
+                        //obtenemos la descripcion que pusimos antes yla partimos en dos por el hastag
+                        // y pillamos el primer elemto que nos devuelve y ese es nuestro x
+                        int x=Integer.parseInt(((String) imageView.getContentDescription()).split("#")[0]);
+                        int y=Integer.parseInt(((String) imageView.getContentDescription()).split("#")[1]);
+                        if(tabla[y][x]==9){
+                            imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina));
+                        } else
+                            imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_pulsado));
                     }
                 });
                 linearLayoutRow.addView(imageView);
-                //  this.gameLogic.addButton(x, y, imageView);
+                imagenes[y][x]=imageView;
+                System.out.println(imagenes[y][x]);
             }
             linearLayout.addView(linearLayoutRow);
         }
     }
 
-    public void desordenarArray(int [] valores){
-        int fila=valores[0];
-        int columna=valores[1];
+
+    public void llenarMinas (int [] valores){
+        int filas=valores[0];
+        int columnas=valores[1];
         int minas=valores[2];
-        int tabla[][] = new int [fila][columna];
+        tabla = new int [filas][columnas];
         int cont=minas;
 
-        for (int x=0;x<fila;x++) {
-            for (int y = 0; y < columna; y++) {
+        for (int y=0;y<filas;y++) {
+            for (int x = 0; x < columnas; x++) {
                 if (cont > 0) {
-                    tabla[x][y] = 9;
+                    tabla[y][x] = 9;
                     cont = cont - 1;
+                } else {
+                    tabla[y][x] = 0;
                 }
-                System.out.print(tabla[x][y]);
+                System.out.print(tabla[y][x]);
             }
             System.out.println("\n");
         }
 
     }
+
+    //desornedar
 
     public void atras(View v) {
         Intent intent2 = new Intent(v.getContext(), MainActivity.class);
@@ -97,4 +116,3 @@ public class MainActivityJuego extends AppCompatActivity {
     }
 
 }
-
