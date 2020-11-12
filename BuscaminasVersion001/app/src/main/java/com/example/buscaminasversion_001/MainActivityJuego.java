@@ -89,7 +89,6 @@ public class MainActivityJuego extends AppCompatActivity {
                     });
                     linearLayoutRow.addView(imageView);
                     imagenes[y][x] = imageView;
-                    System.out.println(imagenes[y][x]);
                 }
                 linearLayout.addView(linearLayoutRow);
             }
@@ -100,10 +99,11 @@ public class MainActivityJuego extends AppCompatActivity {
         int columnas=valores[1];
         int minas=valores[2];
         tabla = new int [filas][columnas];
+        int y=0,x=0;
         int cont=minas;
 
-        for (int y=0;y<filas;y++) {
-            for (int x = 0; x < columnas; x++) {
+        for (y=0;y<filas;y++) {
+            for (x = 0; x < columnas; x++) {
                 if (cont > 0) {
                     tabla[y][x] = 9;
                     cont = cont - 1;
@@ -114,7 +114,18 @@ public class MainActivityJuego extends AppCompatActivity {
             }
             System.out.println("\n");
         }
+/*
+        for (y=0;y<filas;y++) {
+            for (x = 0; x < columnas; x++) {
+                if (tabla[y][x] == 9) {
+                    tabla[y+1][x+1]=tabla[y+1][x+1]+1;
+                }
+                System.out.print(tabla[y][x]);
+            }
+            System.out.println("\n");
+        }
 
+ */
     }
 
     //desornedar
