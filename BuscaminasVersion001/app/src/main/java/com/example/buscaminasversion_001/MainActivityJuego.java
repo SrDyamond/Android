@@ -1,19 +1,17 @@
 package com.example.buscaminasversion_001;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.LogPrinter;
 import android.view.View;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import java.util.Arrays;
 import java.util.Random;
 
 
@@ -21,6 +19,7 @@ public class MainActivityJuego extends AppCompatActivity {
     private int filas =0, columnas=0,minas=0;
     private int[][] tabla;
     private ImageView[][] imagenes;
+    private boolean destapado=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,6 @@ public class MainActivityJuego extends AppCompatActivity {
         }
 
         llenarMinas(valores);
-        bidimensionalArrayShuffle(tabla);
         crearTablero(filas,columnas);
 
     }
@@ -78,13 +76,21 @@ public class MainActivityJuego extends AppCompatActivity {
                             int x = Integer.parseInt(((String) imageView.getContentDescription()).split("#")[0]);
                             int y = Integer.parseInt(((String) imageView.getContentDescription()).split("#")[1]);
                             if (tabla[y][x] == 9) {
-                                imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina));
+                                destapado=true;
+                                imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina2_1));
                                 boolean estado = Boolean.parseBoolean("2");
                                 if(estado==Boolean.parseBoolean("2")){
                                     Toast.makeText(MainActivityJuego.this, "GAME OVER", Toast.LENGTH_SHORT).show();
                                 }
-                            } else
-                                imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_pulsado));
+                            } else if (tabla[y][x] == 0){
+                                destapado=true;
+                                imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
+                                recorrer(y,x);
+                            } else if (tabla[y][x] >=1){
+                                destapado=true;
+                                ponerNumero(imagenes[y][x],tabla[y][x]);
+                            }
+
                         }
                     });
                     linearLayoutRow.addView(imageView);
@@ -110,22 +116,119 @@ public class MainActivityJuego extends AppCompatActivity {
                 } else {
                     tabla[y][x] = 0;
                 }
-                System.out.print(tabla[y][x]);
+             //   System.out.print(tabla[y][x]);
             }
-            System.out.println("\n");
-        }
-/*
-        for (y=0;y<filas;y++) {
-            for (x = 0; x < columnas; x++) {
-                if (tabla[y][x] == 9) {
-                    tabla[y+1][x+1]=tabla[y+1][x+1]+1;
-                }
-                System.out.print(tabla[y][x]);
-            }
-            System.out.println("\n");
+        //    System.out.println("\n");
         }
 
- */
+        bidimensionalArrayShuffle(tabla);
+
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (tabla[i][j]== 0) {
+                    int cant = contarBombasTocadas(i, j);
+                    tabla[i][j]= cant;
+                }
+            }
+        }
+
+        for (y=0;y<filas;y++) {
+            for (x = 0; x < columnas; x++) {
+                System.out.print(tabla[y][x]);
+            }
+               System.out.println("\n");
+        }
+    }
+
+    public void ponerNumero(ImageView imagen, int i){
+        switch (i) {
+            case 1:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_1));
+                break;
+            case 2:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_2));
+                break;
+            case 3:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_3));
+                break;
+            case 4:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_4));
+                break;
+            case 5:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_5));
+                break;
+            case 6:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_6));
+                break;
+            case 7:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_7));
+                break;
+            case 8:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_8));
+                break;
+
+        }
+    }
+
+    private void recorrer(int fil, int col) {
+        if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
+            if (tabla[fil][col]== 0) {
+                destapado =true;
+                tabla[fil][col]= 50;
+                recorrer(fil, col + 1);
+                recorrer(fil, col - 1);
+                recorrer(fil + 1, col);
+                recorrer(fil - 1, col);
+                recorrer(fil - 1, col - 1);
+                recorrer(fil - 1, col + 1);
+                recorrer(fil + 1, col + 1);
+                recorrer(fil + 1, col - 1);
+            } else if (tabla[fil][col]>= 1
+                    && tabla[fil][col]< 9) {
+                    destapado=true;
+            }
+        }
+    }
+
+ 
+
+
+
+    int contarBombasTocadas(int fila, int columna) {
+        int total = 0;
+        if (fila - 1 >= 0 && columna - 1 >= 0) {
+            if (tabla[fila - 1][columna - 1]== 9)
+                total++;
+        }
+        if (fila - 1 >= 0) {
+            if (tabla[fila - 1][columna]== 9)
+                total++;
+        }
+        if (fila - 1 >= 0 && columna + 1 < columnas) {
+            if (tabla[fila - 1][columna + 1]== 9)
+                total++;
+        }
+        if (columna + 1 < columnas) {
+            if (tabla[fila][columna + 1]== 9)
+                total++;
+        }
+        if (fila + 1 < filas && columna + 1 < columnas) {
+            if (tabla[fila + 1][columna + 1]== 9)
+                total++;
+        }
+        if (fila + 1 < filas) {
+            if (tabla[fila + 1][columna]== 9)
+                total++;
+        }
+        if (fila + 1 < filas && columna - 1 >= 0) {
+            if (tabla[fila + 1][columna - 1]== 9)
+                total++;
+        }
+        if (columna - 1 >= 0) {
+            if (tabla[fila][columna - 1]== 9)
+                total++;
+        }
+        return total;
     }
 
     //desornedar
