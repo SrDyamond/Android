@@ -1,14 +1,12 @@
 package com.example.buscaminasversion_001;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -85,7 +83,7 @@ public class MainActivityJuego extends AppCompatActivity {
                             } else if (tabla[y][x] == 0){
                                 destapado=true;
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
-                                recorrer(y,x);
+                                recorrer(y,x,imagenes[y][x]);
                             } else if (tabla[y][x] >=1){
                                 destapado=true;
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
@@ -118,7 +116,7 @@ public class MainActivityJuego extends AppCompatActivity {
                 }
              //   System.out.print(tabla[y][x]);
             }
-        //    System.out.println("\n");
+          //  System.out.println("\n");
         }
 
         bidimensionalArrayShuffle(tabla);
@@ -136,7 +134,7 @@ public class MainActivityJuego extends AppCompatActivity {
             for (x = 0; x < columnas; x++) {
                 System.out.print(tabla[y][x]);
             }
-               System.out.println("\n");
+            System.out.println("\n");
         }
     }
 
@@ -170,19 +168,20 @@ public class MainActivityJuego extends AppCompatActivity {
         }
     }
 
-    private void recorrer(int fil, int col) {
+    private void recorrer(int fil, int col,ImageView image) {
         if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
             if (tabla[fil][col]== 0) {
+                image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
                 destapado =true;
                 tabla[fil][col]= 50;
-                recorrer(fil, col + 1);
-                recorrer(fil, col - 1);
-                recorrer(fil + 1, col);
-                recorrer(fil - 1, col);
-                recorrer(fil - 1, col - 1);
-                recorrer(fil - 1, col + 1);
-                recorrer(fil + 1, col + 1);
-                recorrer(fil + 1, col - 1);
+                recorrer(fil, col + 1, imagenes[fil][col]);
+                recorrer(fil, col - 1, imagenes[fil][col]);
+                recorrer(fil + 1, col, imagenes[fil][col]);
+                recorrer(fil - 1, col, imagenes[fil][col]);
+                recorrer(fil - 1, col - 1, imagenes[fil][col]);
+                recorrer(fil - 1, col + 1, imagenes[fil][col]);
+                recorrer(fil + 1, col + 1, imagenes[fil][col]);
+                recorrer(fil + 1, col - 1, imagenes[fil][col]);
             } else if (tabla[fil][col]>= 1
                     && tabla[fil][col]< 9) {
                     destapado=true;
