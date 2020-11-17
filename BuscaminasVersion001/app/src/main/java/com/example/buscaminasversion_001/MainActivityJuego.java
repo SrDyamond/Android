@@ -21,6 +21,7 @@ public class MainActivityJuego extends AppCompatActivity {
     private ImageView[][] imagenes;
     public boolean destapado=false;
     boolean estado= Boolean.parseBoolean("0");
+    MediaPlayer mp ;
     //0Jugando
     //1Gano
     //2Perdio
@@ -28,6 +29,8 @@ public class MainActivityJuego extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_juego);
+        this.mp=MediaPlayer.create(this, R.raw.speed);
+        mp.start();
         Intent intent = getIntent();
         int[]valores = intent.getIntArrayExtra("Array");
         try {
@@ -243,6 +246,7 @@ public class MainActivityJuego extends AppCompatActivity {
     //recorrer perimetro
     private void recorrerPerimetro(int fil, int col, ImageView image) {
         if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
+            image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
             if (tabla[fil][col]== 0) {
                 image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
                 destapado =true;
@@ -272,15 +276,12 @@ public class MainActivityJuego extends AppCompatActivity {
     public void atras(View v) {
         Intent intent2 = new Intent(v.getContext(), MainActivity.class);
         startActivityForResult(intent2, 0);
+        mp.stop();
     }
     //reiniciar
     public void reiniciar(){
-        /*
         llenarMinas(filas,columnas,minas);
         crearTablero(filas,columnas);
-        
-         */
-
     }
 
 }

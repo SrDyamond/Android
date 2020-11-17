@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //MediaPlayer mp = MediaPlayer.create(this, R.raw.speed);
-        //mp.start();
 
         rb_easy=(RadioButton)findViewById(R.id.rb_1);
         rb_medium=(RadioButton)findViewById(R.id.rb_2);
