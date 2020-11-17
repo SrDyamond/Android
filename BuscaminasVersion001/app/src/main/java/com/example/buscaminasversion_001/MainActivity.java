@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("Array", tablero);
         }
         if(dificultad.getText().equals("La dificultad  es : Dificil" )){
-            int[]tablero = {16, 21, 85};
+            int[]tablero = {20, 20, 70};
             intent.putExtra("Array", tablero);
         }
         startActivityForResult(intent, 0);
