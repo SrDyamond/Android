@@ -17,7 +17,7 @@ import java.util.Random;
 
 
 public class MainActivityJuego extends AppCompatActivity {
-    private int filas =0, columnas=0,minas=0,casillasDestapadas=0,casillasGanar=0;
+    private int filas =0, columnas=0,minas=0,casillasDestapadas=0,casillasGanar=0,numerosContados=0;;
     private int[][] tabla;
     private ImageView[][] imagenes;
     public boolean destapado=false;
@@ -111,6 +111,8 @@ public class MainActivityJuego extends AppCompatActivity {
                                 recorrerPerimetro(y,x,imagenes[y][x]);
                                 //SI ES NUMERO LE PONGO IMAGEN
                             } else if (tabla[y][x] >=1){
+                                numerosContados++;
+                                System.out.println("PULSADOSOLO"+numerosContados);
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
 
@@ -244,12 +246,15 @@ public class MainActivityJuego extends AppCompatActivity {
                 break;
 
         }
+        System.out.println(casillasDestapadas);
     }
     //recorrer perimetro
     private void recorrerPerimetro(int fil, int col, ImageView image) {
         if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
             image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
             if (tabla[fil][col]== 0) {
+                casillasDestapadas++;
+                System.out.println("BLANCAS"+casillasDestapadas);
                 image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
                 tabla[fil][col]= 50;
                 recorrerPerimetro(fil, col + 1, imagenes[fil][col]);
@@ -261,7 +266,9 @@ public class MainActivityJuego extends AppCompatActivity {
                 recorrerPerimetro(fil + 1, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col - 1, imagenes[fil][col]);
             } else if (tabla[fil][col]>= 1 && tabla[fil][col]< 9) {
+                    numerosContados++;
                     ponerNumero(imagenes[fil][col],tabla[fil][col]);
+                System.out.println("NUMEROS"+numerosContados);
             }
         }
     }
