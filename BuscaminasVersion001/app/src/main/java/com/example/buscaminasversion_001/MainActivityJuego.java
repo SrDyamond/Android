@@ -197,7 +197,7 @@ public class MainActivityJuego extends AppCompatActivity {
                 destapado =true;
                 tabla[fil][col]= 50;
                 System.out.println(fil+"+"+col);
-                recorrerPerimetro(fil, col + 1, imagenes[fil][col]);
+                recorrerPerimetro(fil, col + 1, imagenes[y][col]);
                 recorrerPerimetro(fil, col - 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col, imagenes[fil][col]);
                 recorrerPerimetro(fil - 1, col, imagenes[fil][col]);
