@@ -3,8 +3,10 @@ package com.example.buscaminasversion_001;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,7 +41,6 @@ public class MainActivityJuego extends AppCompatActivity {
             columnas = 8;
             minas = 10;
         }
-
         llenarMinas(filas,columnas,minas);
         crearTablero(filas,columnas);
 
@@ -66,19 +67,18 @@ public class MainActivityJuego extends AppCompatActivity {
                     //Pasaamos a traves de un string  la posicion en la tabla de esa imagen
                     imageView.setContentDescription(x + "#" + y);
                     imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boton_sin_pulsar));
-                    //BANDERITA
-                        imageView.setOnLongClickListener(new View.OnLongClickListener() {
-                            public boolean onLongClick(View view) {
-                                if(!destapado){
-                                    ImageView imageView = (ImageView) view;
-                                    imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.bandera));
-                                } else {
+                    imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                        public boolean onLongClick(View view) {
+                            if(!destapado){
+                                ImageView imageView = (ImageView) view;
+                                imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.bandera));
+                            } else {
 
-                                    return false;
-                                }
-                                return true;
+                                return false;
                             }
-                        });
+                            return true;
+                        }
+                    });
                     imageView.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
                             //recuperamos la view a una imagen view
@@ -94,6 +94,7 @@ public class MainActivityJuego extends AppCompatActivity {
                                 boolean estado = Boolean.parseBoolean("2");
                                 if(estado==Boolean.parseBoolean("2")){
                                     Toast.makeText(MainActivityJuego.this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                                    explosion(imageView);
                                     reiniciar();
                                 }
                                 //BLANCO
@@ -107,6 +108,7 @@ public class MainActivityJuego extends AppCompatActivity {
                                 destapado=true;
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
+
                         }
                     });
                     linearLayoutRow.addView(imageView);
@@ -116,7 +118,7 @@ public class MainActivityJuego extends AppCompatActivity {
             }
         }
 
-
+    //llenarMinas
     public void llenarMinas (int fila,int colu, int min){
         int filas=fila;
         int columnas=colu;
@@ -156,64 +158,22 @@ public class MainActivityJuego extends AppCompatActivity {
             }
             System.out.println("\n");
         }
-
- 
     }
+    //desornedar
+    public static void desordenarArray(int[][] a) {
+        Random random = new Random();
+        for (int i = a.length - 1; i > 0; i--) {
+            for (int j = a[i].length - 1; j > 0; j--) {
+                int m = random.nextInt(i + 1);
+                int n = random.nextInt(j + 1);
 
-    public void ponerNumero(ImageView imagen, int i){
-        switch (i) {
-            case 1:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_1));
-                break;
-            case 2:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_2));
-                break;
-            case 3:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_3));
-                break;
-            case 4:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_4));
-                break;
-            case 5:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_5));
-                break;
-            case 6:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_6));
-                break;
-            case 7:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_7));
-                break;
-            case 8:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_8));
-                break;
-
-        }
-    }
-
-    private void recorrerPerimetro(int fil, int col, ImageView image) {
-        if (fil >= 0 && fil <= filas && col >= 0 && col <= columnas) {
-            if (tabla[fil][col]== 0) {
-                image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
-                destapado =true;
-                tabla[fil][col]= 50;
-                System.out.println(fil+"+"+col);
-                recorrerPerimetro(fil, col + 1, imagenes[y][col]);
-                recorrerPerimetro(fil, col - 1, imagenes[fil][col]);
-                recorrerPerimetro(fil + 1, col, imagenes[fil][col]);
-                recorrerPerimetro(fil - 1, col, imagenes[fil][col]);
-                recorrerPerimetro(fil - 1, col - 1, imagenes[fil][col]);
-                recorrerPerimetro(fil - 1, col + 1, imagenes[fil][col]);
-                recorrerPerimetro(fil + 1, col + 1, imagenes[fil][col]);
-                recorrerPerimetro(fil + 1, col - 1, imagenes[fil][col]);
-            } else if (tabla[fil][col]>= 1 && tabla[fil][col]< 9) {
-                    ponerNumero(imagenes[fil][col],tabla[fil][col]);
-                    destapado=true;
+                int temp = a[i][j];
+                a[i][j] = a[m][n];
+                a[m][n] = temp;
             }
         }
     }
-
- 
-
+    //contarombasCerca
     int contarBombasTocadas(int fila, int columna) {
         int total = 0;
         if (fila - 1 >= 0 && columna - 1 >= 0) {
@@ -250,27 +210,70 @@ public class MainActivityJuego extends AppCompatActivity {
         }
         return total;
     }
+    //ponerNumero
+    public void ponerNumero(ImageView imagen, int i){
+        switch (i) {
+            case 1:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_1));
+                break;
+            case 2:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_2));
+                break;
+            case 3:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_3));
+                break;
+            case 4:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_4));
+                break;
+            case 5:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_5));
+                break;
+            case 6:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_6));
+                break;
+            case 7:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_7));
+                break;
+            case 8:
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_8));
+                break;
 
-    //desornedar
-    public static void desordenarArray(int[][] a) {
-        Random random = new Random();
-        for (int i = a.length - 1; i > 0; i--) {
-            for (int j = a[i].length - 1; j > 0; j--) {
-                int m = random.nextInt(i + 1);
-                int n = random.nextInt(j + 1);
-
-                int temp = a[i][j];
-                a[i][j] = a[m][n];
-                a[m][n] = temp;
+        }
+    }
+    //recorrer perimetro
+    private void recorrerPerimetro(int fil, int col, ImageView image) {
+        if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
+            if (tabla[fil][col]== 0) {
+                image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
+                destapado =true;
+                tabla[fil][col]= 50;
+                System.out.println(fil+"+"+col);
+                System.out.println(tabla[fil][col]);
+                recorrerPerimetro(fil, col + 1, imagenes[fil][col]);
+                recorrerPerimetro(fil, col - 1, imagenes[fil][col]);
+                recorrerPerimetro(fil + 1, col, imagenes[fil][col]);
+                recorrerPerimetro(fil - 1, col, imagenes[fil][col]);
+                recorrerPerimetro(fil - 1, col - 1, imagenes[fil][col]);
+                recorrerPerimetro(fil - 1, col + 1, imagenes[fil][col]);
+                recorrerPerimetro(fil + 1, col + 1, imagenes[fil][col]);
+                recorrerPerimetro(fil + 1, col - 1, imagenes[fil][col]);
+            } else if (tabla[fil][col]>= 1 && tabla[fil][col]< 9) {
+                    ponerNumero(imagenes[fil][col],tabla[fil][col]);
+                    destapado=true;
             }
         }
     }
-
+    //sonido eplosion
+    public void explosion(View v) {
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.explosion1);
+        mp.start();
+    }
+    //atras
     public void atras(View v) {
         Intent intent2 = new Intent(v.getContext(), MainActivity.class);
         startActivityForResult(intent2, 0);
     }
-
+    //reiniciar
     public void reiniciar(){
         /*
         llenarMinas(filas,columnas,minas);

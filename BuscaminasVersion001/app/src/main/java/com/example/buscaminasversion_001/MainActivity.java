@@ -3,6 +3,7 @@ package com.example.buscaminasversion_001;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //MediaPlayer mp = MediaPlayer.create(this, R.raw.speed);
+        //mp.start();
 
         rb_easy=(RadioButton)findViewById(R.id.rb_1);
         rb_medium=(RadioButton)findViewById(R.id.rb_2);
