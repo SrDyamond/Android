@@ -9,4 +9,7 @@
     <string name="dificultad">Dificultad</string>
     <string name="atras">Atras</string>
     <string name="button">Button</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="todo">TODO</string>
+    <string name="reiniciar">Reiniciar</string>
 </resources>

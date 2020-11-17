@@ -3,7 +3,7 @@ package com.example.buscaminasversion_001;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import java.util.Random;
 
 
@@ -21,7 +22,7 @@ public class MainActivityJuego extends AppCompatActivity {
     private ImageView[][] imagenes;
     public boolean destapado=false;
     boolean estado= Boolean.parseBoolean("0");
-    MediaPlayer mp ;
+    MediaPlayer juego;
     //0Jugando
     //1Gano
     //2Perdio
@@ -29,8 +30,8 @@ public class MainActivityJuego extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_juego);
-        this.mp=MediaPlayer.create(this, R.raw.speed);
-        mp.start();
+        this.juego =MediaPlayer.create(this, R.raw.speed);
+        juego.start();
         Intent intent = getIntent();
         int[]valores = intent.getIntArrayExtra("Array");
         try {
@@ -96,9 +97,10 @@ public class MainActivityJuego extends AppCompatActivity {
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina2_1));
                                 boolean estado = Boolean.parseBoolean("2");
                                 if(estado==Boolean.parseBoolean("2")){
-                                    Toast.makeText(MainActivityJuego.this, "GAME OVER", Toast.LENGTH_SHORT).show();
                                     explosion(imageView);
-                                    reiniciar();
+                                    finish();
+                                    juego.stop();
+                                    Toast.makeText(MainActivityJuego.this, "BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM    ", Toast.LENGTH_LONG).show();
                                 }
                                 //BLANCO
                             } else if (tabla[y][x] == 0){
@@ -269,19 +271,19 @@ public class MainActivityJuego extends AppCompatActivity {
     }
     //sonido eplosion
     public void explosion(View v) {
-        MediaPlayer mp = MediaPlayer.create(this, R.raw.explosion1);
-        mp.start();
+        MediaPlayer bomba = MediaPlayer.create(this, R.raw.explosion1);
+        bomba.start();
     }
+
     //atras
     public void atras(View v) {
         Intent intent2 = new Intent(v.getContext(), MainActivity.class);
         startActivityForResult(intent2, 0);
-        mp.stop();
+        juego.stop();
     }
-    //reiniciar
-    public void reiniciar(){
-        llenarMinas(filas,columnas,minas);
-        crearTablero(filas,columnas);
+    public void finish(View v){
+        Intent intent2 = new Intent(v.getContext(), MainActivity.class);
+        startActivityForResult(intent2, 0);
     }
 
 }
