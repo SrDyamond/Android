@@ -17,7 +17,7 @@ import java.util.Random;
 
 
 public class MainActivityJuego extends AppCompatActivity {
-    private int filas =0, columnas=0,minas=0;
+    private int filas =0, columnas=0,minas=0,casillasDestapadas=0,casillasGanar=0;
     private int[][] tabla;
     private ImageView[][] imagenes;
     public boolean destapado=false;
@@ -51,6 +51,7 @@ public class MainActivityJuego extends AppCompatActivity {
     }
 
     private void crearTablero(int filas,int columnas){
+        casillasGanar=casillasDestapadas-minas;
         imagenes = new ImageView[filas][columnas];
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int buttonSize = screenWidth / filas;
@@ -71,7 +72,7 @@ public class MainActivityJuego extends AppCompatActivity {
                     //Pasaamos a traves de un string  la posicion en la tabla de esa imagen
                     imageView.setContentDescription(x + "#" + y);
                     imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boton_sin_pulsar));
-                    imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                  /*  imageView.setOnLongClickListener(new View.OnLongClickListener() {
                         public boolean onLongClick(View view) {
                             if(!destapado){
                                 ImageView imageView = (ImageView) view;
@@ -83,6 +84,8 @@ public class MainActivityJuego extends AppCompatActivity {
                             return true;
                         }
                     });
+
+                   */
                     imageView.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
                             //recuperamos la view a una imagen view
@@ -93,7 +96,6 @@ public class MainActivityJuego extends AppCompatActivity {
                             int y = Integer.parseInt(((String) imageView.getContentDescription()).split("#")[1]);
                             //MINA
                             if (tabla[y][x] == 9) {
-                                destapado=true;
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina2_1));
                                 boolean estado = Boolean.parseBoolean("2");
                                 if(estado==Boolean.parseBoolean("2")){
@@ -104,13 +106,11 @@ public class MainActivityJuego extends AppCompatActivity {
                                 }
                                 //BLANCO
                             } else if (tabla[y][x] == 0){
-                                destapado=true;
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
                                 //MIRO SI ES BLANCA
                                 recorrerPerimetro(y,x,imagenes[y][x]);
                                 //SI ES NUMERO LE PONGO IMAGEN
                             } else if (tabla[y][x] >=1){
-                                destapado=true;
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
 
@@ -251,10 +251,7 @@ public class MainActivityJuego extends AppCompatActivity {
             image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
             if (tabla[fil][col]== 0) {
                 image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
-                destapado =true;
                 tabla[fil][col]= 50;
-                System.out.println(fil+"+"+col);
-                System.out.println(tabla[fil][col]);
                 recorrerPerimetro(fil, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil, col - 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col, imagenes[fil][col]);
@@ -265,7 +262,6 @@ public class MainActivityJuego extends AppCompatActivity {
                 recorrerPerimetro(fil + 1, col - 1, imagenes[fil][col]);
             } else if (tabla[fil][col]>= 1 && tabla[fil][col]< 9) {
                     ponerNumero(imagenes[fil][col],tabla[fil][col]);
-                    destapado=true;
             }
         }
     }
