@@ -191,11 +191,12 @@ public class MainActivityJuego extends AppCompatActivity {
     }
 
     private void recorrerPerimetro(int fil, int col, ImageView image) {
-        if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
+        if (fil >= 0 && fil <= filas && col >= 0 && col <= columnas) {
             if (tabla[fil][col]== 0) {
                 image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
                 destapado =true;
                 tabla[fil][col]= 50;
+                System.out.println(fil+"+"+col);
                 recorrerPerimetro(fil, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil, col - 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col, imagenes[fil][col]);
