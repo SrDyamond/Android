@@ -107,7 +107,6 @@ public class MainActivityJuego extends AppCompatActivity {
                                 destapado=true;
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
-
                         }
                     });
                     linearLayoutRow.addView(imageView);
@@ -149,7 +148,7 @@ public class MainActivityJuego extends AppCompatActivity {
                 }
             }
         }
-/*
+
 //ver array
         for (y=0;y<filas;y++) {
             for (x = 0; x < columnas; x++) {
@@ -158,7 +157,7 @@ public class MainActivityJuego extends AppCompatActivity {
             System.out.println("\n");
         }
 
- */
+ 
     }
 
     public void ponerNumero(ImageView imagen, int i){
