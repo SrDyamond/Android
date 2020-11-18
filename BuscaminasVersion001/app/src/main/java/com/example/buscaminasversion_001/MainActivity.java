@@ -23,39 +23,22 @@ public class MainActivity extends AppCompatActivity {
         rb_easy=(RadioButton)findViewById(R.id.rb_1);
         rb_medium=(RadioButton)findViewById(R.id.rb_2);
         rb_hard=(RadioButton)findViewById(R.id.rb_3);
-        dificultad=(TextView)findViewById(R.id.dificultad);
-        dificultad.setText("Por defecto : Facil");
     }
 
-    public void dificultad(View view) {
-        String dif="";
-        if (rb_easy.isChecked() == true) {
-            dif = "Facil";
-            dificultad.setText("La dificultad  es : " + dif);
-        }
-        if (rb_medium.isChecked() == true) {
-            dif = "Medio";
-            dificultad.setText("La dificultad  es : " + dif);
-        }
-        if (rb_hard.isChecked() == true) {
-            dif = "Dificil";
-            dificultad.setText("La dificultad  es : " + dif);
-        }
-    }
+
     public void jugar(View v) {
-        Toast.makeText(this, dificultad.getText(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent (v.getContext(), MainActivityJuego.class);
         //Exportamos array a ActivityJuego
 
-        if(dificultad.getText().equals("La dificultad  es : Facil" )){
+        if(rb_easy.isChecked()){
             int[]tablero = {9,9,10};
             intent.putExtra("Array", tablero);
         }
-        if(dificultad.getText().equals("La dificultad  es : Medio" )){
+        if(rb_medium.isChecked()){
             int[] tablero = {16,16,40 };
             intent.putExtra("Array", tablero);
         }
-        if(dificultad.getText().equals("La dificultad  es : Dificil" )){
+        if(rb_hard.isChecked()){
             int[]tablero = {20, 20, 70};
             intent.putExtra("Array", tablero);
         }
