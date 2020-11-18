@@ -22,10 +22,18 @@ public class MainActivityJuego extends AppCompatActivity {
     private int filas =0, columnas=0,minas=0,casillasDestapadas=0,casillasGanar=0,numerosContados=0;;
     private int[][] tabla;
     private ImageView[][] imagenes;
+    private int[][] banderitaArray;
+
+    public int[][] getBanderitaArray() {
+        return banderitaArray;
+    }
+
     public boolean destapado=false;
     public boolean banderita=true;
     boolean estado= Boolean.parseBoolean("0");
     MediaPlayer juego;
+
+    //arrayBanderita
     //0Jugando
     //1Gano
     //2Perdio
@@ -35,7 +43,7 @@ public class MainActivityJuego extends AppCompatActivity {
         setContentView(R.layout.activity_main_juego);
 
         this.juego =MediaPlayer.create(this, R.raw.speed);
-        juego.start();
+        //juego.start();
         Intent intent = getIntent();
         int[]valores = intent.getIntArrayExtra("Array");
         try {
@@ -54,7 +62,7 @@ public class MainActivityJuego extends AppCompatActivity {
 
     }
 
-    private void crearTablero(int filas,int columnas){
+    private void crearTablero(final int filas, final int columnas){
         final Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         casillasGanar=casillasDestapadas-minas;
         imagenes = new ImageView[filas][columnas];
@@ -77,6 +85,7 @@ public class MainActivityJuego extends AppCompatActivity {
                     //Pasaamos a traves de un string  la posicion en la tabla de esa imagen
                     imageView.setContentDescription(x + "#" + y);
                     imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.verde));
+                    getBanderitaArray();
                     imageView.setOnLongClickListener(new View.OnLongClickListener() {
                         public boolean onLongClick(View view) {
                             if(banderita){
@@ -89,6 +98,7 @@ public class MainActivityJuego extends AppCompatActivity {
                             return true;
                         }
                     });
+
                     imageView.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
                             //recuperamos la view a una imagen view
@@ -99,7 +109,7 @@ public class MainActivityJuego extends AppCompatActivity {
                             int y = Integer.parseInt(((String) imageView.getContentDescription()).split("#")[1]);
                             //MINA
                             if (tabla[y][x] == 9) {
-                                v.vibrate(500);
+                               // v.vibrate(500);
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina2_1));
                                 boolean estado = Boolean.parseBoolean("2");
                                 if(estado==Boolean.parseBoolean("2")){
@@ -110,21 +120,21 @@ public class MainActivityJuego extends AppCompatActivity {
                                 }
                                 //BLANCO
                             } else if (tabla[y][x] == 0){
-                                v.vibrate(500);
-                                banderita=false;
+                             //   v.vibrate(500);
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
                                 //MIRO SI ES BLANCA
                                 recorrerPerimetro(y,x,imagenes[y][x]);
                                 //SI ES NUMERO LE PONGO IMAGEN
                             } else if (tabla[y][x] >=1){
-                                v.vibrate(500);
+                             //   v.vibrate(500);
+                                banderitaArray[y][x]=3;
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
-                            banderita=true;
                         }
                     });
                     linearLayoutRow.addView(imageView);
                     imagenes[y][x] = imageView;
+
                 }
                 linearLayout.addView(linearLayoutRow);
             }
@@ -136,6 +146,7 @@ public class MainActivityJuego extends AppCompatActivity {
         int columnas=colu;
         int minas=min;
         tabla = new int [filas][columnas];
+        banderitaArray = new int [filas][columnas];
         int y=0,x=0;
         int cont=minas;
 
@@ -143,9 +154,11 @@ public class MainActivityJuego extends AppCompatActivity {
             for (x = 0; x < columnas; x++) {
                 if (cont > 0) {
                     tabla[y][x] = 9;
+                    banderitaArray[y][x]=0;
                     cont = cont - 1;
                 } else {
                     tabla[y][x] = 0;
+                    banderitaArray[y][x]=0;
                 }
              //   System.out.print(tabla[y][x]);
             }
@@ -162,13 +175,12 @@ public class MainActivityJuego extends AppCompatActivity {
                 }
             }
         }
-
 //ver array
         for (y=0;y<filas;y++) {
             for (x = 0; x < columnas; x++) {
-                System.out.print(tabla[y][x]);
+            //    System.out.print(tabla[y][x]);
             }
-            System.out.println("\n");
+          //  System.out.println("\n");
         }
     }
     //desornedar
@@ -223,6 +235,7 @@ public class MainActivityJuego extends AppCompatActivity {
         return total;
     }
     //ponerNumero
+
     public void ponerNumero(ImageView imagen, int i){
         switch (i) {
             case 1:
@@ -249,20 +262,17 @@ public class MainActivityJuego extends AppCompatActivity {
             case 8:
                 imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_8));
                 break;
-
         }
-        numerosContados++;
-        System.out.println("NUMEROS"+numerosContados);
+
     }
     //recorrer perimetro
     private void recorrerPerimetro(int fil, int col, ImageView image) {
         if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
             image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
             if (tabla[fil][col]== 0) {
-                casillasDestapadas++;
-                System.out.println("VACIAS"+casillasDestapadas);
                 image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
                 tabla[fil][col]= 50;
+                banderitaArray[fil][col]=3;
                 recorrerPerimetro(fil, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil, col - 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col, imagenes[fil][col]);
@@ -272,9 +282,27 @@ public class MainActivityJuego extends AppCompatActivity {
                 recorrerPerimetro(fil + 1, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col - 1, imagenes[fil][col]);
             } else if (tabla[fil][col]>= 1 && tabla[fil][col]< 9) {
+                banderitaArray[fil][col]=3;
                     ponerNumero(imagenes[fil][col],tabla[fil][col]);
             }
         }
+        System.out.println("##################################################");
+        for (int y=0;y<filas;y++) {
+            for (int x = 0; x < columnas; x++) {
+                System.out.print(tabla[y][x]+",");
+            }
+            System.out.println("\n");
+        }
+
+        System.out.println("------------------------------------------------------");
+        for (int y=0;y<filas;y++) {
+            for (int x = 0; x < columnas; x++) {
+                System.out.print(banderitaArray[y][x]+",");
+            }
+            System.out.println("\n");
+        }
+
+
     }
     //sonido eplosion
     public void explosion(View v) {
