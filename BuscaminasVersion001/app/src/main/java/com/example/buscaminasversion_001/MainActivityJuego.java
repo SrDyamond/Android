@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +33,7 @@ public class MainActivityJuego extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_juego);
+
         this.juego =MediaPlayer.create(this, R.raw.speed);
         juego.start();
         Intent intent = getIntent();
@@ -52,6 +55,7 @@ public class MainActivityJuego extends AppCompatActivity {
     }
 
     private void crearTablero(int filas,int columnas){
+        final Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         casillasGanar=casillasDestapadas-minas;
         imagenes = new ImageView[filas][columnas];
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -95,6 +99,7 @@ public class MainActivityJuego extends AppCompatActivity {
                             int y = Integer.parseInt(((String) imageView.getContentDescription()).split("#")[1]);
                             //MINA
                             if (tabla[y][x] == 9) {
+                                v.vibrate(500);
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina2_1));
                                 boolean estado = Boolean.parseBoolean("2");
                                 if(estado==Boolean.parseBoolean("2")){
@@ -105,12 +110,14 @@ public class MainActivityJuego extends AppCompatActivity {
                                 }
                                 //BLANCO
                             } else if (tabla[y][x] == 0){
+                                v.vibrate(500);
                                 banderita=false;
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
                                 //MIRO SI ES BLANCA
                                 recorrerPerimetro(y,x,imagenes[y][x]);
                                 //SI ES NUMERO LE PONGO IMAGEN
                             } else if (tabla[y][x] >=1){
+                                v.vibrate(500);
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
                             banderita=true;
