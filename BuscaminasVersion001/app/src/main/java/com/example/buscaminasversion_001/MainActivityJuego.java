@@ -43,7 +43,7 @@ public class MainActivityJuego extends AppCompatActivity {
         setContentView(R.layout.activity_main_juego);
 
         this.juego =MediaPlayer.create(this, R.raw.speed);
-        //juego.start();
+        juego.start();
         Intent intent = getIntent();
         int[]valores = intent.getIntArrayExtra("Array");
         try {
@@ -109,7 +109,7 @@ public class MainActivityJuego extends AppCompatActivity {
                             int y = Integer.parseInt(((String) imageView.getContentDescription()).split("#")[1]);
                             //MINA
                             if (tabla[y][x] == 9) {
-                               // v.vibrate(500);
+                                v.vibrate(500);
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.mina2_1));
                                 boolean estado = Boolean.parseBoolean("2");
                                 if(estado==Boolean.parseBoolean("2")){
@@ -120,13 +120,13 @@ public class MainActivityJuego extends AppCompatActivity {
                                 }
                                 //BLANCO
                             } else if (tabla[y][x] == 0){
-                             //   v.vibrate(500);
+                                v.vibrate(500);
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
                                 //MIRO SI ES BLANCA
                                 recorrerPerimetro(y,x,imagenes[y][x]);
                                 //SI ES NUMERO LE PONGO IMAGEN
                             } else if (tabla[y][x] >=1){
-                             //   v.vibrate(500);
+                               v.vibrate(500);
                                 banderitaArray[y][x]=3;
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
