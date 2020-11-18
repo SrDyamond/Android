@@ -21,6 +21,7 @@ public class MainActivityJuego extends AppCompatActivity {
     private int[][] tabla;
     private ImageView[][] imagenes;
     public boolean destapado=false;
+    public boolean banderita=true;
     boolean estado= Boolean.parseBoolean("0");
     MediaPlayer juego;
     //0Jugando
@@ -71,10 +72,10 @@ public class MainActivityJuego extends AppCompatActivity {
                     imageView.setLayoutParams(imageViewLp);
                     //Pasaamos a traves de un string  la posicion en la tabla de esa imagen
                     imageView.setContentDescription(x + "#" + y);
-                    imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boton_sin_pulsar));
-                  /*  imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                    imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.verde));
+                    imageView.setOnLongClickListener(new View.OnLongClickListener() {
                         public boolean onLongClick(View view) {
-                            if(!destapado){
+                            if(banderita){
                                 ImageView imageView = (ImageView) view;
                                 imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.bandera));
                             } else {
@@ -84,8 +85,6 @@ public class MainActivityJuego extends AppCompatActivity {
                             return true;
                         }
                     });
-
-                   */
                     imageView.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
                             //recuperamos la view a una imagen view
@@ -106,16 +105,15 @@ public class MainActivityJuego extends AppCompatActivity {
                                 }
                                 //BLANCO
                             } else if (tabla[y][x] == 0){
-                                imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
+                                banderita=false;
+                                imageView.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
                                 //MIRO SI ES BLANCA
                                 recorrerPerimetro(y,x,imagenes[y][x]);
                                 //SI ES NUMERO LE PONGO IMAGEN
                             } else if (tabla[y][x] >=1){
-                                numerosContados++;
-                                System.out.println("PULSADOSOLO"+numerosContados);
                                 ponerNumero(imagenes[y][x],tabla[y][x]);
                             }
-
+                            banderita=true;
                         }
                     });
                     linearLayoutRow.addView(imageView);
@@ -221,7 +219,7 @@ public class MainActivityJuego extends AppCompatActivity {
     public void ponerNumero(ImageView imagen, int i){
         switch (i) {
             case 1:
-                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_1));
+                imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.uno));
                 break;
             case 2:
                 imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.boton_2));
@@ -246,16 +244,17 @@ public class MainActivityJuego extends AppCompatActivity {
                 break;
 
         }
-        System.out.println(casillasDestapadas);
+        numerosContados++;
+        System.out.println("NUMEROS"+numerosContados);
     }
     //recorrer perimetro
     private void recorrerPerimetro(int fil, int col, ImageView image) {
         if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
-            image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
+            image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
             if (tabla[fil][col]== 0) {
                 casillasDestapadas++;
-                System.out.println("BLANCAS"+casillasDestapadas);
-                image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.blanco));
+                System.out.println("VACIAS"+casillasDestapadas);
+                image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
                 tabla[fil][col]= 50;
                 recorrerPerimetro(fil, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil, col - 1, imagenes[fil][col]);
@@ -266,9 +265,7 @@ public class MainActivityJuego extends AppCompatActivity {
                 recorrerPerimetro(fil + 1, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col - 1, imagenes[fil][col]);
             } else if (tabla[fil][col]>= 1 && tabla[fil][col]< 9) {
-                    numerosContados++;
                     ponerNumero(imagenes[fil][col],tabla[fil][col]);
-                System.out.println("NUMEROS"+numerosContados);
             }
         }
     }
@@ -277,7 +274,6 @@ public class MainActivityJuego extends AppCompatActivity {
         MediaPlayer bomba = MediaPlayer.create(this, R.raw.explosion1);
         bomba.start();
     }
-
     //atras
     public void atras(View v) {
         Intent intent2 = new Intent(v.getContext(), MainActivity.class);
