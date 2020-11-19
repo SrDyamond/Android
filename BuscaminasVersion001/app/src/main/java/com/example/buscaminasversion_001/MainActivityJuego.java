@@ -19,14 +19,11 @@ import java.util.Random;
 
 
 public class MainActivityJuego extends AppCompatActivity {
-    private int filas =0, columnas=0,minas=0,casillasDestapadas=0,casillasGanar=0,numerosContados=0;;
+    private int filas =0, columnas=0,minas=0,casillasDestapadas=0;
     private int[][] tabla;
     private ImageView[][] imagenes;
     private int[][] banderitaArray;
 
-    public int[][] getBanderitaArray() {
-        return banderitaArray;
-    }
 
     public boolean destapado=false;
     public boolean banderita=true;
@@ -64,7 +61,6 @@ public class MainActivityJuego extends AppCompatActivity {
 
     private void crearTablero(final int filas, final int columnas){
         final Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        casillasGanar=casillasDestapadas-minas;
         imagenes = new ImageView[filas][columnas];
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int buttonSize = screenWidth / filas;
@@ -85,7 +81,6 @@ public class MainActivityJuego extends AppCompatActivity {
                     //Pasaamos a traves de un string  la posicion en la tabla de esa imagen
                     imageView.setContentDescription(x + "#" + y);
                     imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.verde));
-                    getBanderitaArray();
                     imageView.setOnLongClickListener(new View.OnLongClickListener() {
                         public boolean onLongClick(View view) {
                             if(banderita){
