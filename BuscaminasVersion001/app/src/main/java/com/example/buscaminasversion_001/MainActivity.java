@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public void jugar(View v) {
 
         Intent intent = new Intent (v.getContext(), MainActivityJuego.class);
-        //Exportamos array a ActivityJuego
+        //Exportamos array a ActivityJuego con valores introducidos polo usuario
 
         if(rb_easy.isChecked()){
             int[]tablero = {9,9,10};

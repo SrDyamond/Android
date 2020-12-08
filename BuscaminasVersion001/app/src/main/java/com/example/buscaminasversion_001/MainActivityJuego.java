@@ -28,24 +28,22 @@ public class MainActivityJuego extends AppCompatActivity {
     private boolean juegofinalizado=false;
 
 
-    public boolean destapado=false;
-    public boolean banderita=true;
     boolean estado= Boolean.parseBoolean("0");
     MediaPlayer juego;
 
-    //arrayBanderita
-    //0Jugando
-    //1Gano
-    //2Perdio
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_juego);
-
+        //instancion la musica del juego
         this.juego =MediaPlayer.create(this, R.raw.speed);
+        juego.setLooping(true);
         juego.start();
+        //traigo los valores de la otra activity
         Intent intent = getIntent();
         int[]valores = intent.getIntArrayExtra("Array");
+        //si los valores dan algun fallo se meten por defecto
         try {
             assert valores != null;
             filas = valores[0];
@@ -152,9 +150,10 @@ public class MainActivityJuego extends AppCompatActivity {
     //comprobarfinal
     public void comprobarFinal() {
             boolean finalDetectado = true;
+            //final es siempre ganado mientras no se cumpla la condicion del if
             for (int y = 0; y < filas; y++) {
                 for (int x = 0; x < columnas; x++) {
-                    if (tabla[y][x] == 9 && clicados[y][x] == 0) {
+                    if (tabla[y][x] != 9 && clicados[y][x] == 0) {
                         finalDetectado = false;
                         break;
                     }
@@ -164,7 +163,12 @@ public class MainActivityJuego extends AppCompatActivity {
                 }
             }
             if (finalDetectado) {
+                finish();
                 juegofinalizado = true;
+                juego.stop();
+                MediaPlayer ganar = MediaPlayer.create(this, R.raw.ganar);
+                ganar.start();
+
                 Toast.makeText(this, "GANASTE", Toast.LENGTH_SHORT).show();
             }
         }
@@ -178,7 +182,9 @@ public class MainActivityJuego extends AppCompatActivity {
         clicados =new int [filas][columnas];
         int y=0,x=0;
         int cont=minas;
-
+        //lleno el array tabla con x minas dados por la variable que paso de la otra activity
+        //las minas son el 9
+        //lleno el array banderita y clicados con 0
         for (y=0;y<filas;y++) {
             for (x = 0; x < columnas; x++) {
                 if (cont > 0) {
@@ -191,9 +197,8 @@ public class MainActivityJuego extends AppCompatActivity {
                     banderitaArray[y][x]=0;
                     clicados[y][x]=0;
                 }
-             //   System.out.print(tabla[y][x]);
+
             }
-          //  System.out.println("\n");
         }
 
         desordenarArray(tabla);
@@ -209,6 +214,7 @@ public class MainActivityJuego extends AppCompatActivity {
     }
     //desornedar
     public static void desordenarArray(int[][] a) {
+        //desordeno el array
         Random random = new Random();
         for (int i = a.length - 1; i > 0; i--) {
             for (int j = a[i].length - 1; j > 0; j--) {
@@ -223,6 +229,7 @@ public class MainActivityJuego extends AppCompatActivity {
     }
     //contarombasCerca
     int contarBombasTocadas(int fila, int columna) {
+        //cuento las bombas que hay en las 8 casillas adyacentes
         int total = 0;
         if (fila - 1 >= 0 && columna - 1 >= 0) {
             if (tabla[fila - 1][columna - 1]== 9)
@@ -260,6 +267,7 @@ public class MainActivityJuego extends AppCompatActivity {
     }
     //ponerNumero
     public void ponerNumero(ImageView imagen, int i){
+        //segun i le meto la imagen de cada valor
         switch (i) {
             case 1:
                 imagen.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.uno));
@@ -293,6 +301,7 @@ public class MainActivityJuego extends AppCompatActivity {
         if (fil >= 0 && fil < filas && col >= 0 && col < columnas) {
             image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
             if (tabla[fil][col]== 0) {
+                //recorro todas las casillas que son cero y cuando son cero les doy valor 50 para que salga del bucle siempre
                 image.setImageDrawable(ContextCompat.getDrawable(MainActivityJuego.this, R.drawable.marron));
                 tabla[fil][col]= 50;
                 banderitaArray[fil][col]=1;
@@ -306,49 +315,20 @@ public class MainActivityJuego extends AppCompatActivity {
                 recorrerPerimetro(fil + 1, col + 1, imagenes[fil][col]);
                 recorrerPerimetro(fil + 1, col - 1, imagenes[fil][col]);
             } else if (tabla[fil][col]>= 1 && tabla[fil][col]< 9) {
+                //si es numero invoco el metodo ponerNumero para ponerle la imagen
                 banderitaArray[fil][col]=1;
                 clicados[fil][col]=1;
                 ponerNumero(imagenes[fil][col],tabla[fil][col]);
             }
         }
-        System.out.println("##################################################");
-        for (int y=0;y<filas;y++) {
-            for (int x = 0; x < columnas; x++) {
-                System.out.print(tabla[y][x]+",");
-            }
-            System.out.println("\n");
-        }
-/*
-        System.out.println("------------------------------------------------------");
-        for (int y=0;y<filas;y++) {
-            for (int x = 0; x < columnas; x++) {
-                System.out.print(banderitaArray[y][x]+",");
-            }
-            System.out.println("\n");
-        }
-
-
- */
-
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        for (int y=0;y<filas;y++) {
-            for (int x = 0; x < columnas; x++) {
-                System.out.print(clicados[y][x]+",");
-            }
-            System.out.println("\n");
-        }
-
-
-
-
     }
-    //sonido eplosion
     public void explosion(View v) {
+        //sonido eplosion
         MediaPlayer bomba = MediaPlayer.create(this, R.raw.explosion1);
         bomba.start();
     }
-    //atras
     public void atras(View v) {
+        //atras
         Intent intent2 = new Intent(v.getContext(), MainActivity.class);
         startActivityForResult(intent2, 0);
         juego.stop();
