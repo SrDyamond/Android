@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
     tools:context=".MainActivity">
 
     <Button
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginTop="124dp"
+        android:background="@android:color/holo_blue_bright"
         android:onClick="play"
         android:text="@string/play"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginTop="52dp"
+        android:background="@android:color/holo_blue_bright"
         android:onClick="pause"
         android:text="@string/pause"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginTop="64dp"
+        android:background="@android:color/holo_blue_bright"
         android:onClick="stop"
         android:text="@string/stop"
         app:layout_constraintBottom_toBottomOf="parent"

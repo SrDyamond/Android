@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void  stop(View view){
         sonido.stop();
+        sonido = MediaPlayer.create(this,R.raw.speed);
     }
 
 }
