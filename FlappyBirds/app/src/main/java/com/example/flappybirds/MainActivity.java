@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        Constants.SCREEN_WIDHT=dm.widthPixels;
+        Constants.SCREEN_WIDTH =dm.widthPixels;
         Constants.SCREEN_HEIGHT =dm.heightPixels;
         setContentView(R.layout.activity_main);
     }

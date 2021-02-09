@@ -38,22 +38,22 @@ public class GameView extends View {
         arrPipes =new ArrayList<>();
         for (int i = 0; i < sumpipe; i++){
             if(i<sumpipe/2){
-                this.arrPipes.add(new Pipe(Constants.SCREEN_WIDHT+i* ((Constants.SCREEN_WIDHT + 200 * Constants.SCREEN_WIDHT / 1080 )/(sumpipe / 2)),
-                  0, 200*Constants.SCREEN_WIDHT/1080,   Constants.SCREEN_HEIGHT/2));
+                this.arrPipes.add(new Pipe(Constants.SCREEN_WIDTH +i* ((Constants.SCREEN_WIDTH + 200 * Constants.SCREEN_WIDTH / 1080 )/(sumpipe / 2)),
+                  0, 200*Constants.SCREEN_WIDTH /1080,   Constants.SCREEN_HEIGHT/2));
                 this.arrPipes.get(this.arrPipes.size()-1).setBm(BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe2));
                 this.arrPipes.get(this.arrPipes.size()-1).randomY();
             }else{
                 this.arrPipes.add(new Pipe(this.arrPipes.get(i-sumpipe/2).getX(), this.arrPipes.get(i-sumpipe/2).getY()
-                    +this.arrPipes.get(i-sumpipe/2).getHeight() + this.distance, 200*Constants.SCREEN_WIDHT/1080, Constants.SCREEN_HEIGHT/2));
+                    +this.arrPipes.get(i-sumpipe/2).getHeight() + this.distance, 200*Constants.SCREEN_WIDTH /1080, Constants.SCREEN_HEIGHT/2));
                         this.arrPipes.get(this.arrPipes.size()-1).setBm(BitmapFactory.decodeResource(this.getResources(), R.drawable.pipe1));
             }
         }
     }
     private void initBird(){
         bird=new Bird();
-        bird.setWidth(100*Constants.SCREEN_WIDHT/1080);
+        bird.setWidth(100*Constants.SCREEN_WIDTH /1080);
         bird.setHeight(100*Constants.SCREEN_HEIGHT /1920);
-        bird.setX(100*Constants.SCREEN_WIDHT/1080);
+        bird.setX(100*Constants.SCREEN_WIDTH /1080);
         bird.setY(700*Constants.SCREEN_HEIGHT /1920);
         ArrayList<Bitmap> arrBms = new ArrayList<>();
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird1));
@@ -65,7 +65,7 @@ public class GameView extends View {
         bird.draw(canvas);
         for(int i =0; i <sumpipe; i++) {
             if (this.arrPipes.get(i).getX() < -arrPipes.get(i).getWidth()){
-                this.arrPipes.get(i).setX(Constants.SCREEN_WIDHT);
+                this.arrPipes.get(i).setX(Constants.SCREEN_WIDTH);
                 if (i < sumpipe / 2) {
                     arrPipes.get(i).randomY();
                 } else {

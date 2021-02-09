@@ -9,7 +9,7 @@ public class Pipe extends BaseObject{
     public static int speed;
     public Pipe(float x, float y, int width ,int height){
         super (x,y,width,height);
-        speed=10*Constants.SCREEN_WIDHT/1080;
+        speed=10*Constants.SCREEN_WIDTH /1080;
 
     }
     public void draw (Canvas canvas){
