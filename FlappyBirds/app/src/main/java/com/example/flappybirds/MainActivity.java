@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        Constants.SCREEN_WIDTH =dm.widthPixels;
-        Constants.SCREEN_HEIGHT =dm.heightPixels;
+        Limites.SCREEN_WIDTH =dm.widthPixels;
+        Limites.SCREEN_HEIGHT =dm.heightPixels;
         setContentView(R.layout.activity_main);
         txt_score=findViewById(R.id.txt_score);
         txt_best_score=findViewById(R.id.txt_best_score);

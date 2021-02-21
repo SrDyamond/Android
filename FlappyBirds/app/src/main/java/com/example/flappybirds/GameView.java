@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,11 +17,11 @@ import android.os.Handler;
 
 
 public class GameView extends View {
-    private Bird bird;
+    private Personaje personaje;
     private android.os.Handler handler;
     private Runnable r;
-    private ArrayList<Pipe> arrPipes;
-    private int sumpipe, distance;
+    private ArrayList<Tuberia> arrTuberias;
+    private int sumpipe, distance = 500* Limites.SCREEN_HEIGHT/1920;
     private int score,bestscore=0;
     private boolean start;
     private Context context;
@@ -45,46 +46,45 @@ public class GameView extends View {
     }
     private void initPipe(){
         sumpipe = 6;
-        distance = 300*Constants.SCREEN_HEIGHT/1920;
-        arrPipes =new ArrayList<>();
+        arrTuberias =new ArrayList<>();
         for (int i = 0; i < sumpipe; i++){
             if(i<sumpipe/2){
-                this.arrPipes.add(new Pipe(Constants.SCREEN_WIDTH +i* ((Constants.SCREEN_WIDTH + 200 * Constants.SCREEN_WIDTH / 1080 )/(sumpipe / 2)),
-                  0, 200*Constants.SCREEN_WIDTH /1080,   Constants.SCREEN_HEIGHT/2));
-                this.arrPipes.get(this.arrPipes.size()-1).setBm(BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe2));
-                this.arrPipes.get(this.arrPipes.size()-1).randomY();
+                this.arrTuberias.add(new Tuberia(Limites.SCREEN_WIDTH +i* ((Limites.SCREEN_WIDTH + 200 * Limites.SCREEN_WIDTH / 1080 )/(sumpipe / 2)),
+                  0, 200* Limites.SCREEN_WIDTH /1080,   Limites.SCREEN_HEIGHT/2));
+                this.arrTuberias.get(this.arrTuberias.size()-1).setBm(BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe2));
+                this.arrTuberias.get(this.arrTuberias.size()-1).randomY();
             }else{
-                this.arrPipes.add(new Pipe(this.arrPipes.get(i-sumpipe/2).getX(), this.arrPipes.get(i-sumpipe/2).getY()
-                    +this.arrPipes.get(i-sumpipe/2).getHeight() + this.distance, 200*Constants.SCREEN_WIDTH /1080, Constants.SCREEN_HEIGHT/2));
-                        this.arrPipes.get(this.arrPipes.size()-1).setBm(BitmapFactory.decodeResource(this.getResources(), R.drawable.pipe1));
+                this.arrTuberias.add(new Tuberia(this.arrTuberias.get(i-sumpipe/2).getX(), this.arrTuberias.get(i-sumpipe/2).getY()
+                    +this.arrTuberias.get(i-sumpipe/2).getHeight() + this.distance, 200* Limites.SCREEN_WIDTH /1080, Limites.SCREEN_HEIGHT/2));
+                        this.arrTuberias.get(this.arrTuberias.size()-1).setBm(BitmapFactory.decodeResource(this.getResources(), R.drawable.pipe1));
             }
         }
     }
     private void initBird(){
-        bird=new Bird();
-        bird.setWidth(100*Constants.SCREEN_WIDTH /1080);
-        bird.setHeight(100*Constants.SCREEN_HEIGHT /1920);
-        bird.setX(100*Constants.SCREEN_WIDTH /1080);
-        bird.setY(700*Constants.SCREEN_HEIGHT /1920);
+        personaje =new Personaje();
+        personaje.setWidth(100* Limites.SCREEN_WIDTH /1080);
+        personaje.setHeight(100* Limites.SCREEN_HEIGHT /1920);
+        personaje.setX(100* Limites.SCREEN_WIDTH /1080);
+        personaje.setY(700* Limites.SCREEN_HEIGHT /1920);
         ArrayList<Bitmap> arrBms = new ArrayList<>();
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird1));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird2));
-        bird.setArrBms(arrBms);
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.gokussgod));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.gokussgod));
+        personaje.setArrBms(arrBms);
     }
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if(start){
-            bird.draw(canvas);
+            personaje.draw(canvas);
             for(int i =0; i <sumpipe; i++) {
-                if(bird.getRect().intersect(arrPipes.get(i).getRect()) ||bird.getY()-bird.getHeight()<0 ||bird.getY()>Constants.SCREEN_HEIGHT ){
-                    Pipe.speed=0;
+                if(personaje.getRect().intersect(arrTuberias.get(i).getRect()) || personaje.getY()- personaje.getHeight()<0 || personaje.getY()> Limites.SCREEN_HEIGHT ){
+                    Tuberia.speed=0;
                     MainActivity.txt_score_over.setText(MainActivity.txt_score.getText());
                     MainActivity.txt_best_score.setText("Best : "+bestscore);
                     MainActivity.txt_score.setVisibility(INVISIBLE);
                     MainActivity.rl_game_over.setVisibility(VISIBLE);
                 }
-                if(this.bird.getX()+this.bird.getWidth() > arrPipes.get(i).getX()+arrPipes.get(i).getWidth()/2
-                        && this.bird.getX()+this.bird.getWidth() <= arrPipes.get(i).getX()+arrPipes.get(i).getWidth()/2+Pipe.speed
+                if(this.personaje.getX()+this.personaje.getWidth() > arrTuberias.get(i).getX()+ arrTuberias.get(i).getWidth()/2
+                        && this.personaje.getX()+this.personaje.getWidth() <= arrTuberias.get(i).getX()+ arrTuberias.get(i).getWidth()/2+ Tuberia.speed
                         &&i<sumpipe/2){
                     score++;
                     if(score>bestscore){
@@ -96,22 +96,22 @@ public class GameView extends View {
                     }
                     MainActivity.txt_score.setText(""+score);
                 }
-                if (this.arrPipes.get(i).getX() < -arrPipes.get(i).getWidth()){
-                    this.arrPipes.get(i).setX(Constants.SCREEN_WIDTH);
+                if (this.arrTuberias.get(i).getX() < -arrTuberias.get(i).getWidth()){
+                    this.arrTuberias.get(i).setX(Limites.SCREEN_WIDTH);
                     if (i < sumpipe / 2) {
-                        arrPipes.get(i).randomY();
+                        arrTuberias.get(i).randomY();
                     } else {
-                        arrPipes.get(i).setY(this.arrPipes.get(i - sumpipe / 2).getY()
-                                + this.arrPipes.get(i - sumpipe / 2).getHeight() + this.distance);
+                        arrTuberias.get(i).setY(this.arrTuberias.get(i - sumpipe / 2).getY()
+                                + this.arrTuberias.get(i - sumpipe / 2).getHeight() + this.distance);
                     }
                 }
-                this.arrPipes.get(i).draw(canvas);
+                this.arrTuberias.get(i).draw(canvas);
             }
         }else{
-            if (bird.getY()>Constants.SCREEN_HEIGHT/2) {
-                bird.setDrop(-15*Constants.SCREEN_HEIGHT/1920);
+            if (personaje.getY()> Limites.SCREEN_HEIGHT/2) {
+                personaje.setDrop(-15* Limites.SCREEN_HEIGHT/1920);
             }
-            bird.draw(canvas);
+            personaje.draw(canvas);
         }
         handler.postDelayed(r,10);
     }
@@ -119,7 +119,10 @@ public class GameView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            bird.setDrop(-15);
+            personaje.setDrop(-15);
+            MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.jump_02);
+            mediaPlayer.start();
+            distance=distance-50;
         }
         return true;
     }
@@ -130,6 +133,8 @@ public class GameView extends View {
 
     public void setStart(boolean start) {
         this.start = start;
+        distance = 500* Limites.SCREEN_HEIGHT/1920;
+
     }
 
     public void reset() {

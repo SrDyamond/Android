@@ -7,11 +7,11 @@ import android.graphics.Matrix;
 
 import java.util.ArrayList;
 
-public class Bird extends BaseObject{
+public class Personaje extends BaseObject{
     private ArrayList<Bitmap> arrBms =new ArrayList<>();
     private int count, vFlap, idCurrentBitmap;
     private float drop;
-    public Bird(){
+    public Personaje(){
         this.count=0;
         this.vFlap=3;
         this.idCurrentBitmap=0;
